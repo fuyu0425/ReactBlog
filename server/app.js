@@ -31,44 +31,46 @@ app.use((req, res, next) => {
   next();
 });
 app.use(async(req, res, next) => {
-  let { method, path, headers }=req;
-  let len = path.length;
-  if (path[ len - 1 ] == '/') path = path.slice(0, len - 1);
-  console.log(path);
-  if (method != 'GET') {
-    if (method == 'POST' && ( path == loginPath || path == registerPath)) {
-      console.log('hi');
+    let { method, path, headers }=req;
+    let len = path.length;
+    if (path[ len - 1 ] == '/') path = path.slice(0, len - 1);
+    console.log(path);
+    if (method != 'GET') {
+      if (method == 'POST' && ( path == loginPath || path == registerPath)) {
+        console.log('hi');
+        next();
+      } else {
+        if (!headers.authorization) {
+          const err = {
+            error : 'Need Authorization JWT'
+          };
+          next(new CustomError('Need Authorization JWT', 401));
+        } else {
+          try {
+            const headString = headers.authorization;
+            const headerArray = headString.split(' ');
+            if (headerArray.length != 2) {
+              throw new CustomError('Token Format is like Bearer \<token\>', 401);
+            }
+            const [ type, token ]=headerArray;
+            if (type != 'Bearer') {
+              throw new CustomError('Token Format is like Bearer \<token\>', 401);
+            }
+            const decoded = jwt.verify(token, config.secret);
+            const { username }=decoded;
+            const USER = await User.findOne({ username });
+            req.user = USER;
+            next();
+          } catch (err) {
+            next(err);
+          }
+        }
+      }
+    } else {
       next();
     }
   }
-  else {
-    if (!headers.authorization) {
-      const err = {
-        error : 'Need Authorization JWT'
-      };
-      next(new CustomError('Need Authorization JWT', 401));
-    } else {
-      try {
-        const headString = headers.authorization;
-        const headerArray = headString.split(' ');
-        if (headerArray.length != 2) {
-          throw new CustomError('Token Format is like Bearer \<token\>', 401);
-        }
-        const [ type, token ]=headerArray;
-        if (type != 'Bearer') {
-          throw new CustomError('Token Format is like Bearer \<token\>', 401);
-        }
-        const decoded = jwt.verify(token, config.secret);
-        const { username }=decoded;
-        const USER = await User.findOne({ username });
-        req.user = USER;
-        next();
-      } catch (err) {
-        next(err);
-      }
-    }
-  }
-});
+);
 app.use('/users', user);
 app.use('/posts', post);
 
