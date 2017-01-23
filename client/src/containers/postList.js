@@ -11,25 +11,30 @@ class PostList extends Component {
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchPost();
   }
 
   render() {
     return (
       <div>
-        {
-          this.props.posts.map((post, idx) => {
-            return (<a key={idx}>{post.title}</a>)
-          })
+
+        {this.props.posts.success ? (
+            this.props.posts.posts.map((post, idx) => {
+              return (<a key={idx}>{post.title}</a>)
+            })
+          ) : (
+            <h1>{this.props.posts.error}</h1>
+          )
         }
+
       </div>
     )
   }
 }
 function mapStateToProps({ posts }) {
   console.log(posts);
-  return { posts : posts }; // weather:weather
+  return { posts : posts };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchPost }, dispatch);
