@@ -12,9 +12,6 @@ router.route('/').get(
       if (req.query.title) {
         query[ 'title' ] = new RegExp(req.query.title);
       }
-      if (req.query.place) {
-        query[ 'place' ] = new RegExp(req.query.place);
-      }
       const posts = await Post.find(query);
       res.json(posts);
     } catch (err) {
@@ -28,7 +25,6 @@ router.route('/').get(
       let post = await Post.create(req.body);
       res.json(post);
     } catch (err) {
-      console.log('hi');
       console.log(err);
       next(err);
     }

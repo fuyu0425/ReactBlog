@@ -67,6 +67,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV' : JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
+    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       template : 'src/index.ejs',
       inject : true
@@ -79,7 +80,7 @@ module.exports = {
     hot : true,
     port : 4000,
     proxy : {
-      '*' : {
+      '/api/*' : {
         target : config.apiServer,
         changeOrigin : true,
         secure : false

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import fetchPost from '../actions/action_post';
+import fetchPost from '../actions/action_fetchpost';
+import sweetAlert from 'sweetalert';
 class PostList extends Component {
   constructor(props) {
     super(props);
@@ -16,15 +17,23 @@ class PostList extends Component {
   }
 
   render() {
+    const { posts, error, success }=this.props.posts;
     return (
       <div>
 
-        {this.props.posts.success ? (
-            this.props.posts.posts.map((post, idx) => {
-              return (<a key={idx}>{post.title}</a>)
-            })
+        {(success) ? (
+            <ul className="list-group">{
+              posts.map((post, idx) => {
+                return (
+                  <li className="list-group-item" key={idx}>{post.title}</li>)
+              })
+            }
+            </ul>
           ) : (
-            <h1>{this.props.posts.error}</h1>
+            sweetAlert({
+              title : "Loading Fail",
+              type : "error"
+            })
           )
         }
 
@@ -32,9 +41,9 @@ class PostList extends Component {
     )
   }
 }
-function mapStateToProps({ posts }) {
-  console.log(posts);
-  return { posts : posts };
+function mapStateToProps({ fetchposts }) {
+  console.log(fetchposts);
+  return { posts : fetchposts };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchPost }, dispatch);

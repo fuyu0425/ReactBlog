@@ -3,29 +3,22 @@ let Schema = mongoose.Schema;
 let PostSchema = new Schema(
   {
     title : { type : String, required : true },
-    begin : { type : Date, required : true },
-    end : {
-      type : Date,
-      required : true,
-      validate : [ dataValidator, 'End Must More Than Start' ]
-    },
-    place : { type : String, required : true },
-    description : { type : String, required : true },
-    items : [
-      {
-        title : { type : String, required : true },
-        author : { type : String, required : true },
-        url : { type : String, required : true }
-      }
-    ]
+    content : { type : String, required : true },
+    summary : { type : String },
+    comments : [ {
+      type : Schema.Types.ObjectId,
+      ref : 'comment'
+    } ]
   }, {
     versionKey : false,
   }
 );
 
-function dataValidator(value) {
-  return this.begin <= value;
-}
+PostSchema.pre('save', function (next) {
+  let length = Math.min(this.content.length, 50);
+  this.summary = this.summary || this.content.substring(0, length);
+  next();
+});
 
 
 let Post = mongoose.model('Post', PostSchema);
