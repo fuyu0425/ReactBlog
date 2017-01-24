@@ -13,6 +13,7 @@
     "bootstrap": "^3.3.7",
     "css-loader": "^0.26.1",
     "lodash": "^4.17.4",
+    "qs": "^6.3.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
@@ -21,6 +22,7 @@
     "redux": "^3.6.0",
     "redux-actions": "^1.2.0",
     "redux-form": "^6.4.3",
+    "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "sweetalert": "^1.1.3"
   },

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
     <label>{label}</label>
@@ -12,6 +13,8 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 class PostForm extends Component {
   render() {
     const { handleSubmit }=this.props;
+    console.log('handleSubmit is');
+    console.log(handleSubmit);
     return (
       <form onSubmit={handleSubmit}>
         <div>

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
+import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import App from './components/app';
 import reducers from './reducers';
@@ -14,9 +15,9 @@ import CreatePost from './containers/createPost';
 import Login from './containers/login';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
 
-const middlewares = [ ReduxThunk, routerMiddleware(browserHistory) ];
+const middleware = [ ReduxThunk, promiseMiddleware, routerMiddleware(browserHistory) ];
 const finalCreateStore = compose(
-    applyMiddleware(...middlewares),
+    applyMiddleware(...middleware),
     DevTools.instrument(),
 )(createStore);
 
