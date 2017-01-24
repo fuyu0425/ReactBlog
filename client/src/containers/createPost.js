@@ -26,7 +26,6 @@ export class CreatePost extends Component {
 }
 
 function mapStateToProps({ post }) {
-  console.log(post);
   return { post };
 }
 function mapDispatchToProps(dispatch) {
