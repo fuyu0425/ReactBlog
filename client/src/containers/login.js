@@ -5,14 +5,29 @@ import { connect } from 'react-redux';
 import sweetAlert from 'sweetalert';
 import { login } from '../actions/action_user';
 import { push } from 'react-router-redux';
+import swal from 'sweetalert';
 export class Login extends Component {
   handleSubmit = (value) => {
     this.props.login(value);
   };
 
+  componentWillMount() {
+    const token = window.localStorage.getItem('token');
+    console.log(token);
+    if (token) {
+      swal({
+        title : "Has logged",
+        type : "info"
+      });
+      this.props.push('/');
+    }
+  }
+
   componentWillReceiveProps(props) {
-    const { user:{ loaded, success } }=props;
+    const { user:{ loaded, success, token } }=props;
     if (loaded && success) {
+      window.localStorage.setItem('token', token);
+      console.log(window.localStorage.getItem('token'));
       this.props.push('/');
     }
   }
