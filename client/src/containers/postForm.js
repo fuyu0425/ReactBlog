@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <div>
-    <label>{label}</label>
+const renderField = ({ input, label, type, textarea, meta: { touched, error } }) => {
+  console.log(input);
+  console.log(textarea);
+  return (
     <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched && ((error && <span>{error}</span>) )}
+      <label>{label}</label>
+      <div>
+        {
+          textarea ? (
+              <textarea {...input} placeholder={label} type={type}/>
+            ) : (
+              <input {...input} placeholder={label} type={type}/>
+            )
+        }
+        {touched && ((error && <span>{error}</span>) )}
+      </div>
     </div>
-  </div>
-);
+  )
+};
 class PostForm extends Component {
   render() {
     const { handleSubmit }=this.props;
@@ -20,7 +30,7 @@ class PostForm extends Component {
                  label="Title"/>
         </div>
         <div>
-          <Field name="content" component={renderField} type="text"
+          <Field name="content" component={renderField} type="text" textarea
                  label="Content"/>
         </div>
         <div>

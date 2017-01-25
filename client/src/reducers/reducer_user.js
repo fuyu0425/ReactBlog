@@ -4,6 +4,7 @@ import {
 import swal from 'sweetalert';
 const initialState = {
   token : {},
+  verified : false,
   success : false,
   loaded : false
 };
@@ -51,10 +52,10 @@ export default handleActions({
   },
   LOGIN : {
     next(state, action) {
-      console.log(action);
       return {
         ...state,
         token : action.payload.data.token,
+        verified : true,
         success : true,
         loaded : true
       };
@@ -66,9 +67,45 @@ export default handleActions({
       });
       return {
         ...state,
+        verified : true,
         success : false,
         loaded : true
       };
     },
+  },
+  LOGOUT : {
+    next(state, action) {
+      return {
+        ...state,
+        token : {},
+        verified : false
+      };
+    },
+    throw(state, action) {
+      return {
+        ...state,
+        token : {},
+        verified : false
+      };
+    },
+  },
+  VERIFY_TOKEN : {
+    next(state, action){
+      return {
+        ...state,
+        verified : true
+      };
+    },
+    throw(state, action){
+      swal({
+        title : "Verify Token Error",
+        type : "error"
+      });
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        verified : false
+      };
+    }
   }
 }, initialState);

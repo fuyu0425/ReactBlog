@@ -5,7 +5,9 @@ const url = `${config.apiServer}/api/users`;
 const Users = {
   getUser : (data) => axios.get(`${url}/?${qs.stringify(data)}`),
   createUser : (data) => axios.post(url, data),
-  login : (data) => axios.post(`${url}/login`, data)
+  login : (data) => axios.post(`${url}/login`, data),
+  logout : () => localStorage.removeItem('token'),
+  verifyToken : (data) => axios.post(`${config.apiServer}/api/verify-token`, data),
 };
 
 

@@ -13,7 +13,6 @@ export class Login extends Component {
 
   componentWillMount() {
     const token = window.localStorage.getItem('token');
-    console.log(token);
     if (token) {
       swal({
         title : "Has logged",
@@ -39,13 +38,26 @@ export class Login extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+function
+
+mapStateToProps({ user }) {
   return { user };
 }
-function mapDispatchToProps(dispatch) {
+
+function
+
+mapDispatchToProps(dispatch) {
   return bindActionCreators({ login, push }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export
+default
+
+connect(mapStateToProps, mapDispatchToProps)
+
+(
+  Login
+)
+;
 
 

@@ -13,26 +13,30 @@ import postList from './containers/postList';
 import test from './components/test';
 import CreatePost from './containers/createPost';
 import Login from './containers/login';
+import Frame from './containers/Frame';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
-
-const middleware = [ ReduxThunk, promiseMiddleware, routerMiddleware(browserHistory) ];
+const middleware = [ ReduxThunk,
+  promiseMiddleware,
+  routerMiddleware(browserHistory) ];
 const finalCreateStore = compose(
-    applyMiddleware(...middleware),
-    DevTools.instrument(),
+  applyMiddleware(...middleware),
+  DevTools.instrument(),
 )(createStore);
 
 const store = finalCreateStore(reducers);
 const history = syncHistoryWithStore(browserHistory, store);
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
-            <Route path="/" component={App}>
-                <IndexRoute component={postList}/>
-                <Route path="test" component={test}/>
-                <Route path="create" component={CreatePost}/>
-                <Route path="login" component={Login}/>
-            </Route>
+  <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={App}>
+        <Route path="" component={Frame}>
+          <IndexRoute component={postList}/>
+          <Route path="test" component={test}/>
+          <Route path="create" component={CreatePost}/>
+          <Route path="login" component={Login}/>
+        </Route>
+      </Route>
 
-        </Router>
-    </Provider>
-    , document.querySelector('.root'));
+    </Router>
+  </Provider>
+  , document.querySelector('.root'));

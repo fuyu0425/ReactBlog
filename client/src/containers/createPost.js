@@ -17,10 +17,9 @@ export class CreatePost extends Component {
     }
   }
 
-
   render() {
     return (
-      <PostForm onSubmit={this.handleSubmit} on/>
+      <PostForm onSubmit={this.handleSubmit}/>
     )
   }
 }

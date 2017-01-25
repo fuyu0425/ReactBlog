@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
   next();
 });
-// app.use(auth);
+app.use(auth);
 let router = express.Router();
 router.post('/verify-token', verify_token);
 router.use('/users', user);
