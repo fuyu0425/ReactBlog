@@ -5,7 +5,7 @@ import config from '../config';
 let { secret } =config;
 let User = mongoose.model('User');
 let router = express.Router({ mergeParams : true });
-import CustomError from './CustomError';
+import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
 
 

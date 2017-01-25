@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 var Post = mongoose.model('Post');
 var router = express.Router({ mergeParams : true });
-import CustomError from './CustomError';
+import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
 
 router.route('/').get(
