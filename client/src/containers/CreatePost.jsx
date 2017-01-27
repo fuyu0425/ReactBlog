@@ -6,7 +6,7 @@ import { push } from 'react-router-redux';
 import { createPost } from '../actions/action_post';
 import PostForm from './PostForm';
 
-export class CreatePost extends Component {
+class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);

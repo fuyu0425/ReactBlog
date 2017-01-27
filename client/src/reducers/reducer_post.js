@@ -1,50 +1,72 @@
-import {
-  handleActions
-} from 'redux-actions';
+import { handleActions } from 'redux-actions';
 import swal from 'sweetalert';
+
+
 const initialState = {
-  posts : [],
-  loaded : false
+  posts: [],
+  postDetail: { title: '', content: '', summary: '' },
+  loaded: false,
 };
 
 export default handleActions({
-  GET_POST : {
+  GET_POST_LIST: {
     next(state, action) {
+      console.log('get list');
       return {
         ...state,
-        posts : action.payload.data
+        posts: action.payload.data,
       };
     },
-    throw(state, action) {
+    throw(state) {
       swal({
-        title : "Loading Fail",
-        type : "error"
+        title: 'Loading Fail',
+        type: 'error',
       });
       return {
         ...state,
-        posts : []
+        posts: [],
       };
     },
   },
-  CREATE_POST : {
+  GET_POST_DETAIL: {
+
     next(state, action) {
-      console.log(action);
+      console.log('get detail');
+      console.log(action.payload.data);
       return {
         ...state,
-        success : true,
-        loaded : true
+        postDetail: action.payload.data,
       };
     },
-    throw(state, action) {
+    throw(state) {
       swal({
-        title : "Creating Fail",
-        type : "error"
+        title: 'Loading Fail',
+        type: 'error',
       });
       return {
         ...state,
-        success : false,
-        loaded : true
+        postDetail: { title: '', content: '', summary: '' },
       };
     },
-  }
+  },
+  CREATE_POST: {
+    next(state) {
+      return {
+        ...state,
+        success: true,
+        loaded: true,
+      };
+    },
+    throw(state) {
+      swal({
+        title: 'Creating Fail',
+        type: 'error',
+      });
+      return {
+        ...state,
+        success: false,
+        loaded: false,
+      };
+    },
+  },
 }, initialState);

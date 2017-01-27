@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 var Post = mongoose.model('Post');
-var router = express.Router({ mergeParams : true });
+var router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
 
@@ -10,11 +10,12 @@ router.route('/').get(
     try {
       let query = {};
       if (req.query.title) {
-        query[ 'title' ] = new RegExp(req.query.title);
+        query['title'] = new RegExp(req.query.title);
       }
-      const posts = await Post.find(query);
-      res.json(posts);
+      let posts = await Post.find(query);
+      res.json(posts.map((data) => data.toJSON()));
     } catch (err) {
+      console.log(err);
       next(err);
     }
   }
@@ -23,7 +24,7 @@ router.route('/').get(
     try {
       console.log(req.body);
       let post = await Post.create(req.body);
-      res.json(post);
+      res.json(post.toJSON());
     } catch (err) {
       console.log(err);
       next(err);
@@ -35,7 +36,7 @@ router.route('/:id').get(
     try {
       const { id } =req.params;
       let post = await Post.findById(id);
-      res.json(post);
+      res.json(post.toJSON());
     } catch (err) {
       next(err);
     }
@@ -45,7 +46,7 @@ router.route('/:id').get(
     try {
       const { id } =req.params;
       let post = await Post.findOneAndUpdate({ id }, req.body);
-      res.json(post);
+      res.json(post.toJSON());
     } catch (err) {
       next(err);
     }

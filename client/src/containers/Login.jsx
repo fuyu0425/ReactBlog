@@ -6,8 +6,7 @@ import swal from 'sweetalert';
 import LoginForm from './LoginForm';
 import { login } from '../actions/action_user';
 
-
-export class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +35,7 @@ export class Login extends Component {
 
   handleSubmit(value) {
     this.props.login(value);
-  };
+  }
 
 
   render() {
@@ -55,5 +54,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-

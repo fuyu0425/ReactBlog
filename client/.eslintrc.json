@@ -16,12 +16,40 @@
     }
   },
   "rules": {
+    "indent": [
+      2,
+      2
+    ],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "log",
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "no-underscore-dangle": 0,
     "arrow-body-style": [
       "warn",
       "as-needed"
     ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
+    "react/jsx-indent": [
+      2,
+      2
+    ],
     "react/jsx-space-before-closing": 0,
     "react/jsx-tag-spacing": 0,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "react/prefer-stateless-function": 1
   }
 }

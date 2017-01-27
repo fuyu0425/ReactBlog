@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 let Schema = mongoose.Schema;
 let PostSchema = new Schema(
   {
-    title : { type : String, required : true },
-    content : { type : String, required : true },
-    summary : { type : String },
-    comments : [ {
-      type : Schema.Types.ObjectId,
-      ref : 'comment'
-    } ]
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    summary: { type: String },
+    comments: [{
+      type: Schema.Types.ObjectId,
+      ref: 'comment'
+    }]
   }, {
-    versionKey : false,
+    versionKey: false,
   }
 );
 
@@ -19,7 +19,7 @@ PostSchema.pre('save', function (next) {
   this.summary = this.summary || this.content.substring(0, length);
   next();
 });
-
+PostSchema.set('toJSON', { getters: true, virtuals: true });
 
 let Post = mongoose.model('Post', PostSchema);
 export  default Post;

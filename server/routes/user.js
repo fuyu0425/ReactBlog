@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import config from '../config';
 let { secret } =config;
 let User = mongoose.model('User');
-let router = express.Router({ mergeParams : true });
+let router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
 
@@ -13,17 +13,16 @@ mongoose.Promise = global.Promise;
 router.route('/')
   .get(async(req, res, next) => {
     try {
-      const users = await User.find({}).select('username -_id');
-      res.json(users);
+      const users = await User.find({});
+      res.json(users.map((data) => data.toJSON()));
     } catch (err) {
       next(err);
     }
   })
   .post(async(req, res, next) => {
-    // const {username,password}=req.body;
     try {
       const data = await User.create(req.body);
-      res.json(data);
+      res.json(data.toJSON());
     } catch (err) {
       next(err);
     }
@@ -34,11 +33,11 @@ router.route('/:username')
     console.log(req.user);
     const params = req.params;
     try {
-      const user = await User.findOne({ username : params.username });
+      const user = await User.findOne({ username: params.username });
       if (!user) {
         throw new CustomError("the user doesn't exist", 404);
       }
-      res.json(user);
+      res.json(user.toJSON());
     } catch (err) {
       next(err);
     }
@@ -50,7 +49,7 @@ router.post('/login', async(req, res, next) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
-    const user = await User.findOne({ username : username });
+    const user = await User.findOne({ username: username });
     if (!user) {
       throw new CustomError("user doesn't exist", 401);
     }
@@ -61,7 +60,7 @@ router.post('/login', async(req, res, next) => {
       username
     };
     const options = {
-      expiresIn : '1d'
+      expiresIn: '1d'
     };
     const token = jwt.sign(payload, secret, options);
     console.log(token);
