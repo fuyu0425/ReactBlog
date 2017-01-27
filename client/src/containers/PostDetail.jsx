@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PageHeader } from 'react-bootstrap';
+import MarkDownIt from 'markdown-it';
+import mk from 'markdown-it-katex';
 import { getPostDetail } from '../actions/action_post';
+
+const md = new MarkDownIt('commonmark').use(mk);
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -10,13 +14,14 @@ class PostDetail extends Component {
     console.log(this.props.params.id);
   }
 
+
   render() {
-    console.log('props is', this.props);
     const { post: { postDetail: { title, content } } } = this.props;
+    const result = md.render(content);
     return (
       <div>
         <PageHeader>{title}</PageHeader>
-        {content}
+        <div dangerouslySetInnerHTML={{ __html: result }}/>
       </div>
     );
   }
