@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import App from './components/app';
+import App from './components/App';
 import reducers from './reducers';
 import DevTools from './containers/DevTools';
 import { browserHistory } from 'react-router'
 import { Router, Route, Link, IndexRoute } from 'react-router'
-import postList from './containers/postList';
+import postList from './containers/PostList';
 import test from './components/test';
-import CreatePost from './containers/createPost';
-import Login from './containers/login';
+import CreatePost from './containers/CreatePost';
+import Login from './containers/Login';
 import Frame from './containers/Frame';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
 const middleware = [ ReduxThunk,

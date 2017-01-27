@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from './header';
+import Header from './Header';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { verifyToken } from '../actions/action_user';
@@ -8,6 +8,17 @@ class Frame extends Component {
     const token = localStorage.getItem('token');
     if (token) {
       this.props.verifyToken({ token });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user }=nextProps;
+    if (user.tokenError) {
+      localStorage.removeItem('token');
+      swal({
+        title : "Verify Token Error",
+        type : "error"
+      });
     }
   }
 

@@ -6,7 +6,8 @@ const initialState = {
   token : {},
   verified : false,
   success : false,
-  loaded : false
+  loaded : false,
+  tokenError : false
 };
 
 export default handleActions({
@@ -57,7 +58,8 @@ export default handleActions({
         token : action.payload.data.token,
         verified : true,
         success : true,
-        loaded : true
+        loaded : true,
+        tokenError : false,
       };
     },
     throw(state, action) {
@@ -69,7 +71,8 @@ export default handleActions({
         ...state,
         verified : true,
         success : false,
-        loaded : true
+        loaded : true,
+        tokenError : false,
       };
     },
   },
@@ -78,14 +81,16 @@ export default handleActions({
       return {
         ...state,
         token : {},
-        verified : false
+        verified : false,
+        tokenError : false
       };
     },
     throw(state, action) {
       return {
         ...state,
         token : {},
-        verified : false
+        verified : false,
+        tokenError : false
       };
     },
   },
@@ -93,18 +98,17 @@ export default handleActions({
     next(state, action){
       return {
         ...state,
-        verified : true
+        verified : true,
+        tokenError : false
       };
     },
     throw(state, action){
-      swal({
-        title : "Verify Token Error",
-        type : "error"
-      });
+
       localStorage.removeItem('token');
       return {
         ...state,
-        verified : false
+        verified : true,
+        tokenError : true,
       };
     }
   }
