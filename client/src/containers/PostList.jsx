@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Link } from 'react-router';
+import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { getPostList } from '../actions/action_post';
 
@@ -12,17 +13,23 @@ class PostList extends Component {
 
   render() {
     const { posts } = this.props.post;
+    const { verified } = this.props.user;
     return (
       <div>
         <ListGroup>
           {
             posts.map((post) => {
               return (
-                <LinkContainer to={`/article/${post.id}`} key={post.id}>
-                  <ListGroupItem>
+                <ListGroupItem key={post.id}>
+                  <Link to={`/article/${post.id}`}>
                     {post.title}
-                  </ListGroupItem>
-                </LinkContainer>
+                  </Link>
+                  {verified && (
+                    <LinkContainer to={`/edit/${post.id}`}>
+                      <Button>Edit</Button>
+                    </LinkContainer>
+                  )}
+                </ListGroupItem>
               );
             })
           }
@@ -32,8 +39,8 @@ class PostList extends Component {
     );
   }
 }
-function mapStateToProps({ post }) {
-  return { post };
+function mapStateToProps({ user, post }) {
+  return { user, post };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getPostList }, dispatch);

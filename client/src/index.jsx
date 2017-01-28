@@ -12,6 +12,7 @@ import DevTools from './containers/DevTools';
 import PostList from './containers/PostList';
 import PostDetail from './containers/PostDetail';
 import CreatePost from './containers/CreatePost';
+import UpdatePost from './containers/UpdatePost';
 import login from './containers/Login';
 import Frame from './containers/Frame';
 
@@ -36,6 +37,7 @@ ReactDOM.render(
           <Route path="create" component={CreatePost}/>
           <Route path="login" component={login}/>
           <Route path="article/:id" component={PostDetail}/>
+          <Route path="edit/:id" component={UpdatePost}/>
         </Route>
       </Route>
 

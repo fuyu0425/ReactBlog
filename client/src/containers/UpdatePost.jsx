@@ -3,10 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { push } from 'react-router-redux';
-import { createPost } from '../actions/action_post';
-import PostForm from './Form/CreatePostForm';
+import { updatePost } from '../actions/action_post';
+import PostForm from './Form/UpdatePostForm';
 
-class CreatePost extends Component {
+class UpdatePost extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,12 +32,17 @@ class CreatePost extends Component {
   }
 
   handleSubmit(value) {
-    this.props.createPost(value);
+    const { id } = this.props.params;
+    this.props.updatePost(id, value);
   }
 
   render() {
+    const { id } = this.props.params;
     return (
-      <PostForm onSubmit={this.handleSubmit}/>
+      <PostForm
+        postId={id}
+        onSubmit={this.handleSubmit}
+      />
     );
   }
 }
@@ -46,7 +51,7 @@ function mapStateToProps({ user, post }) {
   return { user, post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createPost, push }, dispatch);
+  return bindActionCreators({ updatePost, push }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdatePost);

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import swal from 'sweetalert';
-import LoginForm from './LoginForm';
+import LoginForm from './Form/LoginForm';
 import { login } from '../actions/action_user';
 
 class Login extends Component {

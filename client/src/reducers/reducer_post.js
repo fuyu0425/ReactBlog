@@ -69,4 +69,24 @@ export default handleActions({
       };
     },
   },
+  UPDATE_POST: {
+    next(state) {
+      return {
+        ...state,
+        success: true,
+        loaded: true,
+      };
+    },
+    throw(state) {
+      swal({
+        title: 'Updating Fail',
+        type: 'error',
+      });
+      return {
+        ...state,
+        success: false,
+        loaded: false,
+      };
+    },
+  },
 }, initialState);

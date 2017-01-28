@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { getPostDetail } from '../../actions/action_post';
+
 
 const renderField = ({ input, label, type, textarea, meta: { touched, error } }) => (
   <div>
@@ -18,9 +22,22 @@ const renderField = ({ input, label, type, textarea, meta: { touched, error } })
     </div>
   </div>
 );
-
+let id;
 class PostForm extends Component {
+  componentDidMount() {
+    const { postId } = this.props;
+    console.log(postId);
+    id = postId;
+    this.props.getPostDetail(postId);
+  }
+
+  componentWillUnmount() {
+    id = undefined;
+  }
+
   render() {
+    const { postId } = this.props;
+    console.log(postId);
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
@@ -64,7 +81,18 @@ const validate = (values) => {
 };
 
 
-export default reduxForm({
-  form: 'Post',
+function mapStateToProps({ post: { postDetail } }) {
+  if (postDetail.id && postDetail.id === id) {
+    return { initialValues: postDetail };
+  }
+  return {};
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ getPostDetail }, dispatch);
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
+  form: 'UpdatePost',
   validate,
-})(PostForm);
+})(PostForm));
