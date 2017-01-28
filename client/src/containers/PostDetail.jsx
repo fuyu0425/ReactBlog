@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { PageHeader } from 'react-bootstrap';
+import { PageHeader, Col } from 'react-bootstrap';
 import MarkDownIt from 'markdown-it';
 import mk from 'markdown-it-katex';
 import { getPostDetail } from '../actions/action_post';
@@ -20,8 +20,13 @@ class PostDetail extends Component {
     const result = md.render(content);
     return (
       <div>
-        <PageHeader>{title}</PageHeader>
-        <div dangerouslySetInnerHTML={{ __html: result }}/>
+        <Col xs={12} md={8}>
+          <PageHeader>{title}</PageHeader>
+          <div
+            className="markdown-body"
+            dangerouslySetInnerHTML={{ __html: result }}
+          />
+        </Col>
       </div>
     );
   }

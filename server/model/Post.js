@@ -9,8 +9,6 @@ let PostSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'comment'
     }]
-  }, {
-    versionKey: false,
   }
 );
 
@@ -19,7 +17,12 @@ PostSchema.pre('save', function (next) {
   this.summary = this.summary || this.content.substring(0, length);
   next();
 });
-PostSchema.set('toJSON', { getters: true, virtuals: true });
-
+if (!PostSchema.options.toJSON) PostSchema.options.toJSON = {};
+PostSchema.options.toJSON.transform = function (doc, ret, options) {
+  ret.id = ret._id;
+  delete ret._id;
+  delete ret.__v;
+  return ret;
+};
 let Post = mongoose.model('Post', PostSchema);
 export  default Post;
