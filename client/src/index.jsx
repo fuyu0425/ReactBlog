@@ -4,19 +4,13 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import { browserHistory, Router, Route, IndexRoute } from 'react-router';
+import { browserHistory, Router } from 'react-router';
+import routes from './routes';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
-import App from './components/App';
 import reducers from './reducers';
 import DevTools from './containers/DevTools';
-import PostList from './containers/PostList';
-import PostDetail from './containers/PostDetail';
-import CreatePost from './containers/CreatePost';
-import UpdatePost from './containers/UpdatePost';
-import login from './containers/Login';
-import Frame from './containers/Frame';
 
-
+const initialState = window.__INITIAL_STATE__;
 const middleware = [
   ReduxThunk,
   promiseMiddleware,
@@ -24,23 +18,14 @@ const middleware = [
 ];
 const finalCreateStore = compose(
   applyMiddleware(...middleware),
-  DevTools.instrument())(createStore);
+  DevTools.instrument())(createStore, initialState);
 
 const store = finalCreateStore(reducers);
 const history = syncHistoryWithStore(browserHistory, store);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App}>
-        <Route path="" component={Frame}>
-          <IndexRoute component={PostList}/>
-          <Route path="create" component={CreatePost}/>
-          <Route path="login" component={login}/>
-          <Route path="article/:id" component={PostDetail}/>
-          <Route path="edit/:id" component={UpdatePost}/>
-        </Route>
-      </Route>
-
+      {routes}
     </Router>
   </Provider>
   , document.querySelector('.root'));

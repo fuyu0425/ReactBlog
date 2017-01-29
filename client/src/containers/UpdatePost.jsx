@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { push } from 'react-router-redux';
-import { updatePost } from '../actions/action_post';
+import { updatePost, init } from '../actions/action_post';
 import PostForm from './Form/UpdatePostForm';
 
 class UpdatePost extends Component {
@@ -17,7 +17,9 @@ class UpdatePost extends Component {
     const { user } = this.props;
     if (!user.verified || (user.verified && user.tokenError)) {
       swal({ title: 'it need to be admin', type: 'error' });
+
       this.props.push('/');
+      this.props.init();
     }
   }
 
@@ -25,9 +27,11 @@ class UpdatePost extends Component {
     const { user: { verified, tokenError }, post: { loaded, success } } = props;
     if (loaded && success) {
       this.props.push('/');
+      this.props.init();
     }
     if (!verified || (verified && tokenError)) {
       this.props.push('/');
+      this.props.init();
     }
   }
 
@@ -51,7 +55,7 @@ function mapStateToProps({ user, post }) {
   return { user, post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updatePost, push }, dispatch);
+  return bindActionCreators({ updatePost, init, push }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePost);

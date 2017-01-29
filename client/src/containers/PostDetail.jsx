@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { PageHeader, Col } from 'react-bootstrap';
+import { PageHeader, Col, Row, Grid } from 'react-bootstrap';
 import MarkDownIt from 'markdown-it';
+import hl from 'markdown-it-highlightjs';
 import mk from 'markdown-it-katex';
 import { getPostDetail } from '../actions/action_post';
-
-const md = new MarkDownIt('commonmark').use(mk);
+import CreateComment from './CreateComment';
+const md = new MarkDownIt('commonmark').use(mk).use(hl);
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -16,17 +17,30 @@ class PostDetail extends Component {
 
 
   render() {
-    const { post: { postDetail: { title, content } } } = this.props;
+    const { post: { postDetail: { title, content, comments } } } = this.props;
     const result = md.render(content);
     return (
       <div>
-        <Col xs={12} md={8}>
-          <PageHeader>{title}</PageHeader>
-          <div
-            className="markdown-body"
-            dangerouslySetInnerHTML={{ __html: result }}
-          />
-        </Col>
+        <Row className="show-grid">
+          <Col xs={8} md={8} style={{ margin: '0 auto', float: 'none' }}>
+            <PageHeader>{title}</PageHeader>
+            <div
+              className="markdown-body"
+              dangerouslySetInnerHTML={{ __html: result }}
+            />
+            <h4>Comments</h4>
+            <CreateComment postId={this.props.params.id}/>
+            { comments.length ? (
+                comments.map(comment => (
+                  <div key={comment.id}>
+                    {comment.author}
+                    {comment.content}
+                  </div>
+                ))
+              ) : (<div>No comment</div>)
+            }
+          </Col>
+        </Row>
       </div>
     );
   }

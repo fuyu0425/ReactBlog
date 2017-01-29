@@ -12,7 +12,7 @@ router.route('/').get(
       if (req.query.title) {
         query['title'] = new RegExp(req.query.title);
       }
-      let posts = await Post.find(query).populate('comments');
+      let posts = await Post.find(query);
       res.json(posts.map((data) => data.toJSON()));
     } catch (err) {
       console.log(err);
@@ -35,7 +35,7 @@ router.route('/:id').get(
   async(req, res, next) => {
     try {
       const { id } =req.params;
-      let post = await Post.findById(id);
+      let post = await Post.findById(id).populate('comments');
       res.json(post.toJSON());
     } catch (err) {
       next(err);

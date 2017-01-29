@@ -19,9 +19,9 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
   },
   module: {
-    preLoaders: [
-      { test: /\.(jsx|js)$/, loader: 'eslint-loader', exclude: /node_modules/ },
-    ],
+//    preLoaders: [
+//      { test: /\.(jsx|js)$/, loader: 'eslint-loader', exclude: /node_modules/ },
+//    ],
     loaders: [
       {
         test: /\.(jsx|js)$/,
@@ -88,7 +88,7 @@ module.exports = {
     hot: true,
     port: 4000,
     proxy: {
-      '/api/*': {
+      '/api': {
         target: config.apiServer,
         changeOrigin: true,
         secure: false,

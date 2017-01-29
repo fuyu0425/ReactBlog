@@ -4,8 +4,11 @@ import swal from 'sweetalert';
 
 const initialState = {
   posts: [],
-  postDetail: { title: '', content: '', summary: '' },
+  postDetail: { title: '', content: '', summary: '', comments: [] },
+  success: true,
   loaded: false,
+  createCommentLoaded: false,
+  createCommentSuccess: false,
 };
 
 export default handleActions({
@@ -86,6 +89,37 @@ export default handleActions({
         ...state,
         success: false,
         loaded: false,
+      };
+    },
+  },
+  CREATE_COMMENT: {
+    next(state){
+      return {
+        ...state,
+        createCommentLoaded: true,
+        createCommentSuccess: true
+      }
+    },
+    throw(state){
+      swal({
+        title: "Create Comment Fail",
+        type: 'error'
+      });
+      return {
+        ...state,
+        createCommentLoaded: true,
+        createCommentSuccess: false
+      }
+    },
+  },
+  INIT: {
+    next(state) {
+      return {
+        ...state,
+        success: true,
+        loaded: false,
+        createCommentLoaded: false,
+        createCommentSuccess: false,
       };
     },
   },

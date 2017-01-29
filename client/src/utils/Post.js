@@ -13,6 +13,7 @@ const Posts = {
   getPostDetail: id => axios.get(`${url}/${id}`),
   createPost: data => axios.post(url, data, { headers }),
   updatePost: (id, data) => axios.put(`${url}/${id}`, data, { headers }),
+  createComment: (id, data) => axios.post(`${url}/${id}/comments`, data)
 };
 
 

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-
+import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 const renderField = ({ input, label, type, textarea, meta: { touched, error } }) => (
-  <div>
-    <label htmlFor={label}>{label}</label>
-    <div>
-      {
-        textarea ?
-          (
-            <textarea {...input} placeholder={label} type={type}/>
-          ) :
-          (
-            <input {...input} placeholder={label} type={type}/>
-          )
-      }
-      {touched && ((error && <span>{error}</span>))}
-    </div>
-  </div>
+  <FormGroup>
+    <ControlLabel>{label}</ControlLabel>
+    {
+      textarea ?
+        (
+          <FormControl {...input} componentClass="textarea" type={type}
+                       placeholder={label}/>
+        ) :
+        (
+          <FormControl {...input} type={type} placeholder={label}/>
+        )
+    }
+
+    {touched && ((error && <span>{error}</span>))}
+  </FormGroup>
 );
 
 class PostForm extends Component {
@@ -50,7 +50,7 @@ class PostForm extends Component {
           />
         </div>
         <div>
-          <button type="submit">Submit</button>
+          <Button type="submit">Submit</Button>
         </div>
       </form>
     );

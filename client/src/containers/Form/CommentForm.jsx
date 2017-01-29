@@ -18,25 +18,27 @@ const renderField = ({ input, label, type, textarea, meta: { touched, error } })
     {touched && ((error && <span>{error}</span>))}
   </FormGroup>
 );
-class LoginForm extends Component {
+
+class CommentForm extends Component {
   render() {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div>
           <Field
-            name="username"
+            name="author"
             component={renderField}
             type="text"
-            label="Username"
+            label="Author"
           />
         </div>
         <div>
           <Field
-            name="password"
+            name="content"
             component={renderField}
-            type="password"
-            label="Password"
+            type="text"
+            textarea
+            label="Content"
           />
         </div>
         <div>
@@ -48,12 +50,13 @@ class LoginForm extends Component {
 }
 const validate = (values) => {
   const errors = {};
-  if (!values.username) errors.username = 'Required';
-  if (!values.password) errors.password = 'Required';
+  if (!values.author) errors.author = 'Required';
+  if (!values.content) errors.content = 'Required';
   return errors;
 };
-export default reduxForm({
-  form: 'Login',
-  validate,
-})(LoginForm);
 
+
+export default reduxForm({
+  form: 'Comment',
+  validate,
+})(CommentForm);

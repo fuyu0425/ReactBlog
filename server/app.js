@@ -24,7 +24,7 @@ app.use(cors());
 app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended : false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'application/json');
@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
   } else {
     res.status(400);
   }
-  res.json({ error : err });
+  res.json({ error: err });
 });
 
 
