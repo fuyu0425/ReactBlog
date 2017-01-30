@@ -7,11 +7,13 @@ import CreatePost from './containers/CreatePost';
 import UpdatePost from './containers/UpdatePost';
 import login from './containers/Login';
 import Frame from './containers/Frame';
+import HomePage from './containers/HomePage';
 
 export default (
   <Route path="/" component={App}>
     <Route path="" component={Frame}>
-      <IndexRoute component={PostList}/>
+      <IndexRoute component={HomePage}/>
+      <Route path="postlist" component={PostList}/>
       <Route path="create" component={CreatePost}/>
       <Route path="login" component={login}/>
       <Route path="article/:id" component={PostDetail}/>

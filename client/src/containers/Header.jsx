@@ -26,6 +26,9 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
+            <LinkContainer to={'/postlist/'}>
+              <NavItem>Post List</NavItem>
+            </LinkContainer>
             {(user.verified && !user.tokenError)
               ? [
                 <LinkContainer

@@ -21,26 +21,28 @@ class PostDetail extends Component {
     const result = md.render(content);
     return (
       <div>
-        <Row className="show-grid">
-          <Col xs={8} md={8} style={{ margin: '0 auto', float: 'none' }}>
-            <PageHeader>{title}</PageHeader>
-            <div
-              className="markdown-body"
-              dangerouslySetInnerHTML={{ __html: result }}
-            />
-            <h4>Comments</h4>
-            <CreateComment postId={this.props.params.id}/>
-            { comments.length ? (
-                comments.map(comment => (
-                  <div key={comment.id}>
-                    {comment.author}
-                    {comment.content}
-                  </div>
-                ))
-              ) : (<div>No comment</div>)
-            }
-          </Col>
-        </Row>
+
+        <PageHeader>{title}</PageHeader>
+        <div
+          className="markdown-body"
+          dangerouslySetInnerHTML={{ __html: result }}
+        />
+        <h4>Comments</h4>
+        <CreateComment postId={this.props.params.id}/>
+        { comments.length ? (
+            comments.map(comment => (
+              <div key={comment.id}>
+                    <span
+                      style={{ color: 'blue' }}>
+                      {comment.author}:&nbsp;
+                    </span>
+                <span>{comment.content}</span>
+                <hr/>
+              </div>
+            ))
+          ) : (<div>No comment</div>)
+        }
+         
       </div>
     );
   }
@@ -48,7 +50,6 @@ class PostDetail extends Component {
 
 
 function mapStateToProps({ post }) {
-  console.log(post);
   return { post };
 }
 

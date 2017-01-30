@@ -8,7 +8,9 @@ import { getPostList } from '../actions/action_post';
 
 class PostList extends Component {
   componentDidMount() {
-    this.props.getPostList();
+    const { posts } = this.props.post;
+    if (!posts.length)
+      this.props.getPostList();
   }
 
   render() {
@@ -26,7 +28,7 @@ class PostList extends Component {
                   </Link>
                   {verified && (
                     <LinkContainer to={`/edit/${post.id}`}>
-                      <Button>Edit</Button>
+                      <Button bsSize="small">Edit</Button>
                     </LinkContainer>
                   )}
                 </ListGroupItem>

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/style.sass';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'sweetalert/dist/sweetalert.css';
 import DevTools from '../containers/DevTools';

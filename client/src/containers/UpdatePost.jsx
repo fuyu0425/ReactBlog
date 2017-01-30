@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import { push } from 'react-router-redux';
-import { updatePost, init } from '../actions/action_post';
+import { updatePost, init, getPostList } from '../actions/action_post';
 import PostForm from './Form/UpdatePostForm';
 
 class UpdatePost extends Component {
@@ -26,6 +26,7 @@ class UpdatePost extends Component {
   componentWillReceiveProps(props) {
     const { user: { verified, tokenError }, post: { loaded, success } } = props;
     if (loaded && success) {
+      this.props.getPostList();
       this.props.push('/');
       this.props.init();
     }
@@ -55,7 +56,7 @@ function mapStateToProps({ user, post }) {
   return { user, post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updatePost, init, push }, dispatch);
+  return bindActionCreators({ updatePost, init, push, getPostList }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdatePost);
