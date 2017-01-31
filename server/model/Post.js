@@ -3,7 +3,7 @@ import moment from 'moment';
 let Schema = mongoose.Schema;
 let PostSchema = new Schema(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true ,index:true },
     content: { type: String, required: true },
     summary: { type: String },
     comments: [{
@@ -14,7 +14,7 @@ let PostSchema = new Schema(
 
   }
 );
-
+PostSchema.index({title:'text'});
 PostSchema.pre('save', function (next) {
   let length = Math.min(this.content.length, 50);
   this.summary = this.summary || this.content.substring(0, length);

@@ -1,19 +1,33 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { Post, Comment }from '../model';
-var router = express.Router({ mergeParams: true });
+import config from '../config';
+let router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
-
+let {numPerPage} =config;
 router.route('/').get(
   async(req, res, next) => {
     try {
+      let {title,page}=req.query;
       let query = {};
-      if (req.query.title) {
-        query['title'] = new RegExp(req.query.title);
+      if (title ) {
+//        query['title'] = new RegExp(req.query.title);
+        query.$text={$search:title};
       }
-      let posts = await Post.find(query);
-      res.json(posts.map((data) => data.toJSON()));
+      console.log(query);
+      if(!page) page=1;
+      let [posts,counts] = await Promise.all([
+        Post.find(query).skip(numPerPage*(page-1)).limit(numPerPage),
+        Post.find(query).count()
+      ]);
+      let totalpage=Math.ceil(counts/numPerPage);
+      posts=posts.map((data) => data.toJSON());
+      let result={
+        totalpage,
+        items:posts
+      };
+      res.json(result);
     } catch (err) {
       console.log(err);
       next(err);

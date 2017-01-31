@@ -15,9 +15,10 @@ export default handleActions({
   GET_POST_LIST: {
     next(state, action) {
       console.log('get list');
+      console.log(action.payload.data);
       return {
         ...state,
-        posts: action.payload.data,
+        posts: action.payload.data.items,
       };
     },
     throw(state) {
