@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PageHeader, Col, Row, Grid } from 'react-bootstrap';
+import Helmet from "react-helmet";
 import swal from 'sweetalert';
 import Header from './Header';
 import { verifyToken } from '../actions/action_user';
@@ -30,9 +31,16 @@ class Frame extends Component {
   render() {
     return (
       <div>
+        <Helmet
+          htmlAttributes={{lang: "en", amp: undefined}}
+          defaultTitle="Leo's Blog"
+          meta={[
+            {name:'author',content:'Leo'},
+          ]}
+        />
         <Row className="show-grid">
+          <Header/>
           <Col xs={8} md={8} style={{ margin: '0 auto', float: 'none' }}>
-            <Header/>
             {this.props.children}
           </Col>
         </Row>

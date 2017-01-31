@@ -63,6 +63,7 @@ class PostForm extends Component {
             name="summary"
             component={renderField}
             type="text"
+            textarea
             label="Summary"
           />
         </div>

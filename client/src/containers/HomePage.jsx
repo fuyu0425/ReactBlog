@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { ListGroup, ListGroupItem, Button, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import Helmet from 'react-helmet';
 import { getPostList } from '../actions/action_post';
 
 class HomePage extends Component {
@@ -16,24 +17,42 @@ class HomePage extends Component {
   render() {
     const { posts } = this.props.post;
     return (
-      <div className="homepage">
+      <div className="main">
+        <Helmet
+          title="Homepage"
+          titleTemplate="%s - Leo's Blog"
+          meta={[
+            {name:'author',content:'Leo'},
+            {property:'og:title',content:'Leo\'s Blog'},
+            {property:'og:description',content:'Leo\'s Blog'}
+          ]}
+        />
         {
           posts.map((post) => {
             return (
-              <div key={post.id} className="post-block">
-                <div className="update-date">{post.updated}</div>
-                <LinkContainer to={`/article/${post.id}`}>
-                  <div className="title">
-                    <a>
+              <article key={post.id} className="post-block">
+
+                <header>
+                  <h1 className="title">
+                    <Link to={`/article/${post.id}`}>
                     {post.title}
-                    </a>
-                  </div>
-                </LinkContainer>
-                <p>{post.summary}</p>
-                <Link to={`/article/${post.id}`}>
-                  Read More .....
-                </Link>
-              </div>
+                    </Link>
+                  </h1>
+                </header>
+                  <section className="update-date">
+                    <i className="fa fa-calendar"/>
+                    <time dateTime={post.updated}>{post.updated}</time>
+                  </section>
+                  <section className="summary">
+                      <p>{post.summary}</p>
+                  </section>
+                  <footer className="readmore">
+                    <Link  to={`/article/${post.id}`}>
+                      Read More .....
+                    </Link>
+                  </footer>
+                <hr/>
+              </article>
             );
           })
         }

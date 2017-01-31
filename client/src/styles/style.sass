@@ -1,18 +1,46 @@
 @import url("http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css")
 @import url("https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css")
-
-$font-family-text: Helvetica,sans-serif
+@import url("https://fonts.googleapis.com/css?family=Merriweather+Sans")
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+$font-family-text: 'Merriweather Sans',sans-serif
 
 #bootstrap-overrides
-  .homepage
-    a
-      font: 100% $font-family-text
+  font: 100% $font-family-text
+  font-size: 16px
+  line-height: 24px
+  background-color: #F1F2F1
+  hr
+    margin: 3px
+  article
+    width: 80%
+    float: none
+    margin: 0 auto
+  .main
+    background-color: white
   .update-date
+    font-size: 14px
+    line-height: 20px
     color: gray
+  .post-block
+    display: block
+    padding: 5px
+    margin-bottom: 30px
+    .title
+      text-align: center
+      a
+        color: #123E2D
+        &:hover
+          color: #A2B537
+    .summary .content
+      margin-top: 20px
+    .readmore
+      margin-top: 20px
+      margin-bottom: 20px
 
-  .post-block .title
-    text-align: center
-    a
-      color: green
-      &:hover
-        color: red
+
+  .comments
+    margin-top: 200px
+    margin-left: 30px
+    margin-right: 30px
+    h4
+      text-align: center

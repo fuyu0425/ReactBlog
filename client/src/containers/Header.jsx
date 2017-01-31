@@ -25,10 +25,12 @@ class Header extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
+          <Nav pullLeft>
             <LinkContainer to={'/postlist/'}>
               <NavItem>Post List</NavItem>
             </LinkContainer>
+          </Nav>
+          <Nav pullRight>
             {(user.verified && !user.tokenError)
               ? [
                 <LinkContainer
@@ -46,7 +48,7 @@ class Header extends Component {
               ] : (
                 <LinkContainer to={'/login/'}>
                   <NavItem>
-                    Login
+                    Admin
                   </NavItem>
                 </LinkContainer >
               )

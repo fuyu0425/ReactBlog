@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
-import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+import { ListGroup, ListGroupItem, Button,Row,Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { getPostList } from '../actions/action_post';
 
@@ -23,9 +23,17 @@ class PostList extends Component {
             posts.map((post) => {
               return (
                 <ListGroupItem key={post.id}>
-                  <Link to={`/article/${post.id}`}>
-                    {post.title}
-                  </Link>
+                  <Row>
+
+                    <Col md={6} className="text-left">
+                      <Link to={`/article/${post.id}`}>{post.title}</Link>
+                    </Col>
+
+                    <Col md={6} className="text-right">
+                      {post.updated}
+                    </Col>
+                  </Row>
+
                   {verified && (
                     <LinkContainer to={`/edit/${post.id}`}>
                       <Button bsSize="small">Edit</Button>
