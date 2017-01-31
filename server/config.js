@@ -8,7 +8,7 @@ const config = {
   adminUsername : 'admin',
   adminPassword : '12345678',
   apiServer : 'http://localhost:8000/',
-  numPerPage:20
+  defaultNumPerPage:2
 
 };
 export default config;

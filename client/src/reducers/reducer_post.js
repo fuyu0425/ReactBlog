@@ -4,6 +4,8 @@ import swal from 'sweetalert';
 
 const initialState = {
   posts: [],
+  nowPage:1,
+  totalPage:1,
   postDetail: { title: '', content: '', summary: '', comments: [] },
   success: true,
   loaded: false,
@@ -19,6 +21,7 @@ export default handleActions({
       return {
         ...state,
         posts: action.payload.data.items,
+        totalPage:action.payload.data.totalpage
       };
     },
     throw(state) {
@@ -111,6 +114,14 @@ export default handleActions({
         createCommentLoaded: true,
         createCommentSuccess: false
       }
+    },
+  },
+  SELECT_PAGE:{
+    next(state,action){
+      return {
+        ...state,
+        nowPage:action.payload
+      };
     },
   },
   INIT: {

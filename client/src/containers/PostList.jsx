@@ -4,18 +4,28 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { ListGroup, ListGroupItem, Button,Row,Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { getPostList } from '../actions/action_post';
-
+import { getPostList,selectPage } from '../actions/action_post';
+import PageBar from '../components/PageBar';
 class PostList extends Component {
+  constructor(props){
+    super(props);
+    this.nowPage=undefined;
+  }
   componentDidMount() {
-    const { posts } = this.props.post;
-    if (!posts.length)
-      this.props.getPostList();
+    this.props.selectPage(1);
+  }
+  componentWillReceiveProps(props){
+    const { nowPage } = props.post;
+    if(nowPage!=this.nowPage){
+      this.props.getPostList({page:nowPage,per:30});
+      this.nowPage=nowPage;
+    }
   }
 
   render() {
-    const { posts } = this.props.post;
+    const { posts,nowPage,totalPage } = this.props.post;
     const { verified } = this.props.user;
+    const {selectPage} = this.props;
     return (
       <div>
         <ListGroup>
@@ -44,7 +54,9 @@ class PostList extends Component {
             })
           }
         </ListGroup>
-
+        <div className="page-bar">
+          <PageBar nowPage={nowPage} totalPage={totalPage} selectPage={selectPage}/>
+        </div>
       </div>
     );
   }
@@ -53,7 +65,7 @@ function mapStateToProps({ user, post }) {
   return { user, post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPostList }, dispatch);
+  return bindActionCreators({ getPostList,selectPage }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

@@ -5,17 +5,27 @@ import { Link } from 'react-router';
 import { ListGroup, ListGroupItem, Button, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Helmet from 'react-helmet';
-import { getPostList } from '../actions/action_post';
-
+import { getPostList ,selectPage} from '../actions/action_post';
+import PageBar from '../components/PageBar';
 class HomePage extends Component {
-  componentDidMount() {
-    const { posts } = this.props.post;
-    if (!posts.length)
-      this.props.getPostList();
+  constructor(props){
+    super(props);
+    this.nowPage=undefined;
   }
-
+  componentDidMount() {
+    this.props.selectPage(1);
+  }
+  componentWillReceiveProps(props){
+    const { nowPage } = props.post;
+    if(nowPage!=this.nowPage){
+      this.props.getPostList({page:nowPage,per:5});
+      this.nowPage=nowPage;
+    }
+  }
   render() {
-    const { posts } = this.props.post;
+    const { posts ,nowPage,totalPage} = this.props.post;
+    const {selectPage} = this.props;
+
     return (
       <div className="main">
         <Helmet
@@ -56,6 +66,9 @@ class HomePage extends Component {
             );
           })
         }
+        <div className="page-bar">
+        <PageBar nowPage={nowPage} totalPage={totalPage} selectPage={selectPage}/>
+        </div>
       </div>
     );
   }
@@ -64,7 +77,7 @@ function mapStateToProps({ post }) {
   return { post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPostList }, dispatch);
+  return bindActionCreators({ getPostList,selectPage }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

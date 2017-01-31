@@ -5,16 +5,16 @@ import config from '../config';
 let router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
-let {numPerPage} =config;
+let {defaultNumPerPage} =config;
 router.route('/').get(
   async(req, res, next) => {
     try {
-      let {title,page}=req.query;
+      let {title,page,per}=req.query;
       let query = {};
-      if (title ) {
-//        query['title'] = new RegExp(req.query.title);
+      if (title) {
         query.$text={$search:title};
       }
+      let numPerPage=Number(per)||defaultNumPerPage;
       console.log(query);
       if(!page) page=1;
       let [posts,counts] = await Promise.all([
