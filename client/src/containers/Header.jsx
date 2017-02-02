@@ -32,6 +32,13 @@ class Header extends Component {
             <LinkContainer to={'/about/'}>
               <NavItem>About me</NavItem>
             </LinkContainer>
+            <NavItem>
+              <div
+                onClick={()=>window.location=("mailto:a0919610611@gmail.com")}
+              >
+                Contact me
+              </div>
+            </NavItem>
           </Nav>
           <Nav pullRight>
 

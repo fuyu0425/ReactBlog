@@ -14,7 +14,10 @@ import bluebird from 'bluebird';
 import auth from './middleware/auth';
 import verify_token from './utils/verfiy_token';
 global.Promise = bluebird;
-mongoose.connect(config.db);
+
+const {dbUser,dbPwd,dbHost,dbPort,dbAuthSource,dbDatabase} = config;
+
+mongoose.connect(`mongodb://${dbUser}:${dbPwd}@${dbHost}:${dbPort}/${dbDatabase}?authSource=${dbAuthSource}`);
 
 
 const app = express();
@@ -39,35 +42,21 @@ app.use('/api', router);
 
 
 app.use((err, req, res, next) => {
-  if (err instanceof CustomError) {
-    if(err.status==401 && req.tokenError){
-      res.json({error:req.tokenError})
+  if(err) {
+    if (err instanceof CustomError) {
+      if (err.status == 401 && req.tokenError) {
+        res.json({ error: req.tokenError })
+      }
+      res.status(err.status);
+      delete err.status;
+    } else {
+      res.status(400);
     }
-    res.status(err.status);
-    delete err.status;
-  } else {
-    res.status(400);
-  }
-  res.json({ error: err });
+    res.json({ error: err });
+  }else res.status(404).json({error:'not found'})
 });
 
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-//
-// error handler
-// app.use(function(err, req, res, next) {
-//   set locals, only providing error in development
-// res.locals.message = err.message;
-// res.locals.error = req.app.get('env') === 'development' ? err : {};
-//
-// render the error page
-// res.status(err.status || 500);
-// res.render('error');
-// });
+
 
 module.exports = app;

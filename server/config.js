@@ -3,7 +3,12 @@
  * @type {{db: string, secret: string, adminUsername: string, adminPassword: string}}
  */
 const config = {
-  db : 'mongodb://localhost/blog',
+  dbUser:'dbadmin',
+  dbPwd:'123456',
+  dbHost:'localhost',
+  dbPort:27017,
+  dbDatabase : 'blog',
+  dbAuthSource:'admin',
   secret : 'e3ca223a-ab88-475b-9f1d-010636214c43',
   adminUsername : 'admin',
   adminPassword : '12345678',
@@ -11,4 +16,5 @@ const config = {
   defaultNumPerPage:2
 
 };
+//'mongodb://dbadmin:123456@localhost/blog?authSource=admin',
 export default config;
