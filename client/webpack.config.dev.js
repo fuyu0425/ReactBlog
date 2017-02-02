@@ -35,11 +35,11 @@ module.exports = {
       },
       {
         test: /\.sass$/,
-        loader: 'style!css!sass',
+        loader: 'style!css!autoprefixer!sass',
       },
       {
         test: /\.css$/,
-        loader: 'style!css',
+        loader: 'style!css!autoprefixer',
       },
 
       { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },

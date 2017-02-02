@@ -35,7 +35,9 @@ router.route('/').get(
   }
 ).post(
   async(req, res, next) => {
+
     try {
+      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
       console.log(req.body);
       let post = await Post.create(req.body);
       res.json(post.toJSON());
@@ -58,6 +60,7 @@ router.route('/:id').get(
 ).put(
   async(req, res, next) => {
     try {
+      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
       const { id } =req.params;
       let post = await Post.findByIdAndUpdate(id, req.body);
       res.json(post.toJSON());
@@ -68,6 +71,7 @@ router.route('/:id').get(
 ).delete(
   async(req, res, next) => {
     try {
+      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
       const { id } = req.params;
       let post = await Post.findByIdAndRemove(id);
       res.status(204).json({});
@@ -80,6 +84,7 @@ router.route('/:id').get(
 router.route('/:id/comments').post(
   async(req, res, next) => {
     try {
+      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
       const { id }=req.params;
       let [post, comment] =await Promise.all(
         [Post.findById(id), Comment.create(req.body)]
@@ -98,6 +103,7 @@ router.route('/:postid/comments/:commentid')
   .delete(
     async(req, res, next) => {
       try {
+        if(!req.isAuthenticated) throw new CustomError('need authorization',401);
         const { postid, commentid }=req.params;
         let [post, comment] =await Promise.all(
           [

@@ -2,29 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
+import {push} from 'react-router-redux';
 import { ListGroup, ListGroupItem, Button, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Helmet from 'react-helmet';
-import { getPostList ,selectPage} from '../actions/action_post';
+import { getPostList} from '../actions/action_post';
 import PageBar from '../components/PageBar';
 class HomePage extends Component {
   constructor(props){
     super(props);
-    this.nowPage=undefined;
+    this.state={nowPage:Number(1)};
+    this.selectPage=this.selectPage.bind(this);
   }
   componentDidMount() {
-    this.props.selectPage(1);
+    let {page} =this.props.params;
+    if(!page) page=1;
+    this.setState({nowPage:page});
+    this.props.getPostList({page:page,per:5});
   }
-  componentWillReceiveProps(props){
-    const { nowPage } = props.post;
-    if(nowPage!=this.nowPage){
-      this.props.getPostList({page:nowPage,per:5});
-      this.nowPage=nowPage;
-    }
+  selectPage(value){
+    this.props.push(`/page/${value}`);
+    this.props.getPostList({page:value,per:5});
+    this.setState({nowPage:Number(value)});
   }
   render() {
-    const { posts ,nowPage,totalPage} = this.props.post;
-    const {selectPage} = this.props;
+    const { posts,totalPage} = this.props.post;
 
     return (
       <div className="main">
@@ -67,7 +69,7 @@ class HomePage extends Component {
           })
         }
         <div className="page-bar">
-        <PageBar nowPage={nowPage} totalPage={totalPage} selectPage={selectPage}/>
+        <PageBar nowPage={Number(this.state.nowPage)} totalPage={totalPage} selectPage={this.selectPage}/>
         </div>
       </div>
     );
@@ -77,7 +79,7 @@ function mapStateToProps({ post }) {
   return { post };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getPostList,selectPage }, dispatch);
+  return bindActionCreators({ getPostList,push }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

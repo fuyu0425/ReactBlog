@@ -40,6 +40,9 @@ app.use('/api', router);
 
 app.use((err, req, res, next) => {
   if (err instanceof CustomError) {
+    if(err.status==401 && req.tokenError){
+      res.json({error:req.tokenError})
+    }
     res.status(err.status);
     delete err.status;
   } else {

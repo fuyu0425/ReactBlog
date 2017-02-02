@@ -49,12 +49,12 @@ module.exports = {
       {
         test: /\.sass$/,
 //        loader: 'style!css!sass',
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader"),
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer!sass-loader"),
       },
       {
         test: /\.css$/,
 //        loader: 'style!css',
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader"),
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer"),
       },
 
       { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
@@ -95,33 +95,6 @@ module.exports = {
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        properties: true,
-        sequences: true,
-        dead_code: true,
-        drop_console: true,
-        conditionals: true,
-        comparisons: true,
-        evaluate: true,
-        booleans: true,
-        unused: true,
-        loops: true,
-        hoist_funs: true,
-        cascade: true,
-        if_return: true,
-        join_vars: true,
-        drop_debugger: true,
-        unsafe: true,
-        hoist_vars: true,
-        negate_iife: true,
-      },
-      comments: false,
-      mangle: true,
-      minimize: true,
-    }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(), new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
         properties: true,

@@ -5,7 +5,7 @@ import config from '../config';
 let auth = async(req, res, next) => {
   let { method, path, headers }=req;
   if (!headers.authorization) {
-    req.userIsAuthenticated = false;
+    req.isAuthenticated = false;
     next();
   } else {
     try {
@@ -20,12 +20,12 @@ let auth = async(req, res, next) => {
       }
       const decoded = jwt.verify(token, config.secret);
       const { username }=decoded;
-      req.userIsAuthenticated = true;
-      req.user = await User.findOne({ username });
+      req.isAuthenticated = true;
+      req.username = username;
       req.tokenError = undefined;
       next();
     } catch (err) {
-      req.userIsAuthenticated = false;
+      req.isAuthenticated = false;
       req.tokenError = err.message;
       next();
     }

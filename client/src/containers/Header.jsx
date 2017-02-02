@@ -29,8 +29,12 @@ class Header extends Component {
             <LinkContainer to={'/postlist/'}>
               <NavItem>Post List</NavItem>
             </LinkContainer>
+            <LinkContainer to={'/about/'}>
+              <NavItem>About me</NavItem>
+            </LinkContainer>
           </Nav>
           <Nav pullRight>
+
             {(user.verified && !user.tokenError)
               ? [
                 <LinkContainer
