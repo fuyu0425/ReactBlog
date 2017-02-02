@@ -2,8 +2,10 @@
   "name": "Blog",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon ./bin/www --exec babel-node",
-    "lint": "./node_modules/.bin/eslint"
+    "start": "nodemon ./src/bin/www --exec babel-node",
+    "lint": "./node_modules/.bin/eslint",
+    "build": "babel -d ./dist ./src",
+    "server": "node ./dist/bin/www"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
@@ -26,6 +28,8 @@
     "pug": "^2.0.0-beta6"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-polyfill": "^6.22.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0"
