@@ -5,6 +5,8 @@ const config = require('./config');
 
 module.exports = {
   entry: [
+    'webpack-dev-server/client?http://localhost:4000',
+    'webpack/hot/dev-server',
     './src/index.jsx',
   ],
   output: {
@@ -26,7 +28,7 @@ module.exports = {
       {
         test: /\.(jsx|js)$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader'],
+        loaders: ['react-hot-loader/webpack', 'babel-loader'],
         include: Path.join(__dirname, 'src/'),
       },
       {
@@ -80,6 +82,7 @@ module.exports = {
       template: 'src/index.ejs',
       inject: true,
     }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
 
