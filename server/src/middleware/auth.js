@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import CustomError from '../CustomError';
-import { User } from '../model';
 import config from '../config';
 let auth = async (req, res, next) => {
   let { method, path, headers } = req;

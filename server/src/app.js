@@ -1,4 +1,4 @@
-import { User, Post } from './model';
+import { Post } from './model';
 import mongoose from 'mongoose';
 import express from 'express';
 import logger from 'morgan';
