@@ -5,27 +5,27 @@ import config from '../config';
 let router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
 mongoose.Promise = global.Promise;
-let {defaultNumPerPage} =config;
+let { defaultNumPerPage } = config;
 router.route('/').get(
-  async(req, res, next) => {
+  async (req, res, next) => {
     try {
-      let {title,page,per}=req.query;
+      let { title, page, per } = req.query;
       let query = {};
       if (title) {
-        query.$text={$search:title};
+        query.$text = { $search: title };
       }
-      let numPerPage=Number(per)||defaultNumPerPage;
+      let numPerPage = Number(per) || defaultNumPerPage;
       console.log(query);
-      if(!page) page=1;
-      let [posts,counts] = await Promise.all([
-        Post.find(query).skip(numPerPage*(page-1)).limit(numPerPage),
+      if (!page) page = 1;
+      let [posts, counts] = await Promise.all([
+        Post.find(query).skip(numPerPage * (page - 1)).limit(numPerPage),
         Post.find(query).count()
       ]);
-      let totalpage=Math.ceil(counts/numPerPage);
-      posts=posts.map((data) => data.toJSON());
-      let result={
+      let totalpage = Math.ceil(counts / numPerPage);
+      posts = posts.map((data) => data.toJSON());
+      let result = {
         totalpage,
-        items:posts
+        items: posts
       };
       res.json(result);
     } catch (err) {
@@ -34,10 +34,10 @@ router.route('/').get(
     }
   }
 ).post(
-  async(req, res, next) => {
+  async (req, res, next) => {
 
     try {
-      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
+      if (!req.isAuthenticated) throw new CustomError('need authorization', 401);
       console.log(req.body);
       let post = await Post.create(req.body);
       res.json(post.toJSON());
@@ -47,33 +47,33 @@ router.route('/').get(
     }
   }
 );
-router.route('/:id').get(
-  async(req, res, next) => {
+router.route('/:slug').get(
+  async (req, res, next) => {
     try {
-      const { id } =req.params;
-      let post = await Post.findById(id).populate('comments');
+      const { slug } = req.params;
+      let post = await Post.findOne({ slug }).populate('comments');
       res.json(post.toJSON());
     } catch (err) {
       next(err);
     }
   }
 ).put(
-  async(req, res, next) => {
+  async (req, res, next) => {
     try {
-      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
-      const { id } =req.params;
-      let post = await Post.findByIdAndUpdate(id, req.body);
+      if (!req.isAuthenticated) throw new CustomError('need authorization', 401);
+      const { slug } = req.params;
+      let post = await Post.findOneAndUpdate({ slug }, req.body);
       res.json(post.toJSON());
     } catch (err) {
       next(err);
     }
   }
 ).delete(
-  async(req, res, next) => {
+  async (req, res, next) => {
     try {
-      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
-      const { id } = req.params;
-      let post = await Post.findByIdAndRemove(id);
+      if (!req.isAuthenticated) throw new CustomError('need authorization', 401);
+      const { slug } = req.params;
+      let post = await Post.findOneAndRemove({ slug });
       res.status(204).json({});
     } catch (err) {
       next(err);
@@ -81,13 +81,13 @@ router.route('/:id').get(
 
   }
 );
-router.route('/:id/comments').post(
-  async(req, res, next) => {
+router.route('/:slug/comments').post(
+  async (req, res, next) => {
     try {
-      if(!req.isAuthenticated) throw new CustomError('need authorization',401);
-      const { id }=req.params;
-      let [post, comment] =await Promise.all(
-        [Post.findById(id), Comment.create(req.body)]
+      console.log(req.isAuthenticated);
+      const { slug } = req.params;
+      let [post, comment] = await Promise.all(
+        [Post.findOne({ slug }), Comment.create(req.body)]
       );
       console.log(post, comment);
       post.comments.push(comment);
@@ -99,15 +99,15 @@ router.route('/:id/comments').post(
     }
   }
 );
-router.route('/:postid/comments/:commentid')
+router.route('/:slug/comments/:commentid')
   .delete(
-    async(req, res, next) => {
+    async (req, res, next) => {
       try {
-        if(!req.isAuthenticated) throw new CustomError('need authorization',401);
-        const { postid, commentid }=req.params;
-        let [post, comment] =await Promise.all(
+        if (!req.isAuthenticated) throw new CustomError('need authorization', 401);
+        const { slug, commentid } = req.params;
+        let [post, comment] = await Promise.all(
           [
-            Post.findByIdAndUpdate(postid, { $pull: { comments: commentid } }),
+            Post.findOneAndUpdate({ slug }, { $pull: { comments: commentid } }),
             Comment.findByIdAndRemove(commentid)
           ]);
         res.status(204).json({});

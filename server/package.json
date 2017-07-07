@@ -2,10 +2,10 @@
   "name": "Blog",
   "version": "0.0.0",
   "scripts": {
-    "start": "nodemon ./src/bin/www --exec babel-node",
+    "start": "nodemon ./src/server.js --exec babel-node",
     "lint": "./node_modules/.bin/eslint",
     "build": "babel -d ./dist ./src",
-    "server": "node ./dist/bin/www"
+    "server": "node ./dist/server.js"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",

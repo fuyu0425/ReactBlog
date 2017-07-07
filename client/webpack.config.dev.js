@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackBrowserPlugin = require('webpack-browser-plugin');
 const Path = require('path');
 const config = require('./config');
 
@@ -56,7 +57,7 @@ module.exports = {
       { test: /\.eot$/, loader: 'file', },
       {
         test: /\.svg$/,
-        loader: "url?limit=10000&mimetype=image/svg+xml",
+        loader: 'url?limit=10000&mimetype=image/svg+xml',
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
@@ -82,7 +83,12 @@ module.exports = {
       template: 'src/index.ejs',
       inject: true,
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new WebpackBrowserPlugin({
+      browser: 'Chrome',
+      port: 4000,
+      url: 'http://localhost',
+    }),
   ],
   devServer: {
 

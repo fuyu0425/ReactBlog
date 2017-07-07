@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import config from '../config';
-let { secret } =config;
+let { secret } = config;
 let User = mongoose.model('User');
 let router = express.Router({ mergeParams: true });
 import CustomError from '../CustomError';
@@ -46,15 +46,15 @@ mongoose.Promise = global.Promise;
 //  });
 
 //login using username and password
-router.post('/login', async(req, res, next) => {
+router.post('/login', async (req, res, next) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
     const user = await User.findOne({ username: username });
-    if (!user) {
-      throw new CustomError("user doesn't exist", 401);
+    if (username !== 'admin') {
+      throw new CustomError('user doesn\'t exist', 401);
     }
-    if (password != user.password) {
+    if (password !== '12345678') {
       throw new CustomError('password is wrong', 401);
     }
     const payload = {
@@ -65,7 +65,7 @@ router.post('/login', async(req, res, next) => {
     };
     const token = jwt.sign(payload, secret, options);
     console.log(token);
-    res.status(200).json({ token })
+    res.status(200).json({ token });
   } catch (err) {
     next(err);
   }

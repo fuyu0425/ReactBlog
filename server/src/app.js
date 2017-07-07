@@ -15,7 +15,7 @@ import auth from './middleware/auth';
 import verify_token from './utils/verfiy_token';
 global.Promise = bluebird;
 
-const {dbUser,dbPwd,dbHost,dbPort,dbAuthSource,dbDatabase} = config;
+const { dbUser, dbPwd, dbHost, dbPort, dbAuthSource, dbDatabase } = config;
 
 mongoose.connect(`mongodb://${dbUser}:${dbPwd}@${dbHost}:${dbPort}/${dbDatabase}?authSource=${dbAuthSource}`);
 
@@ -42,10 +42,10 @@ app.use('/api', router);
 
 
 app.use((err, req, res, next) => {
-  if(err) {
+  if (err) {
     if (err instanceof CustomError) {
-      if (err.status == 401 && req.tokenError) {
-        res.json({ error: req.tokenError })
+      if (err.status === 401 && req.tokenError) {
+        res.json({ error: req.tokenError });
       }
       res.status(err.status);
       delete err.status;
@@ -53,10 +53,8 @@ app.use((err, req, res, next) => {
       res.status(400);
     }
     res.json({ error: err });
-  }else res.status(404).json({error:'not found'})
+  } else res.status(404).json({ error: 'not found' });
 });
-
-
 
 
 module.exports = app;
